@@ -1,8 +1,11 @@
 from flask import Flask, jsonify
-import asyncio
 from routes import create_summary, get_summary, delete_summary
 
 app = Flask(__name__)
+
+# TODO Add typing throughout app
+# This file defines Flask routes. The functions called are defined in seperate modules to promote better code organization and maintainability (this applies throughout app).
+# Note: Ensure proper configuration of the MongoDB connection and OpenAI API key for correct API functionality when you want to run this.
 
 @app.route("/summaries", methods=["POST"])
 async def create_summary_route():

@@ -5,6 +5,9 @@ from mongodb import collection
 from helpers import fetch_summary
 import asyncio
 
+# Aysnc func responsible for creating summaries based on a given call transcript in a concurrent manor.
+# retrieves and validates json, defines internal & external prompts, provides logs, creates tasks to assist with async
+# We insert this into our MongoDB collection and log an ID to make it easier to fetch
 async def create_summary(app):
     try:
         data = request.json
@@ -49,12 +52,12 @@ def get_summary(app, summary_id):
         # Convert summary_id to ObjectId
         obj_id = ObjectId(summary_id)
 
-        # Find the summary document with the given ID
+        # Need to supress, use cmd + click to read more here. I also gained insight on this from 
+        # the following thread https://stackoverflow.com/questions/9694460/difference-between-id-and-id-fields-in-mongodb
         summary = collection.find_one({"_id": obj_id})
 
         if summary:
             summary["_id"] = str(summary["_id"])
-            # Return the summary document as JSON response
             return jsonify(summary), 200
         else:
             return jsonify({"message": "Summary not found"}), 404
@@ -70,22 +73,21 @@ def delete_summary(app, summary_id):
     try:
         app.logger.info(f"Deleting summary with ID: {summary_id}")
 
-        # Convert summary_id to ObjectId
         obj_id = ObjectId(summary_id)
 
-        # Delete the document using the converted ObjectId
+        # See get notes
         result = collection.delete_one({"_id": obj_id})
 
         if result.deleted_count == 1:
             app.logger.info(f"Summary with ID {summary_id} deleted successfully")
-            return jsonify({"message": "Summary deleted successfully"}), 200
+            return jsonify({"message": f"Summary with ID {summary_id}"}), 200
         else:
             app.logger.warning(f"Summary with ID {summary_id} not found")
-            return jsonify({"message": "Summary not found"}), 404
+            return jsonify({"message": f"Summary with ID {summary_id} not found"}), 404
 
     except InvalidId:
         app.logger.error(f"Invalid summary ID: {summary_id}")
-        return jsonify({"message": "Invalid summary ID"}), 400
+        return jsonify({"message": f"{summary_id} is an Invalid summary ID"}), 400
 
     except Exception as e:
         app.logger.error(f"Error deleting summary: {str(e)}")
