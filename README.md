@@ -40,7 +40,7 @@ For other operating systems, refer to the official MongoDB installation guide: [
 
 Once you have completed these steps, you will have the Sales Call Copilot API set up and ready to use.
 #
-## Usage
+## Usage [View Walk Through Video](https://www.loom.com/share/6d53e1ce48394762afd3c1c712784fb9)
 1. Start the Sales Call Copilot API: 
     ```
     cd app
