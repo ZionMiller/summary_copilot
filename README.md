@@ -18,7 +18,7 @@ To set up the Sales Call Copilot API, follow these steps:
 
 1. Clone the repository:
     ```
-    git clone https://github.com/your/repo.git
+    git clone git@github.com:ZionMiller/summary_copilot.git
     ```
 2. Install the required dependencies:
 ```pip install -r requirements.txt```
