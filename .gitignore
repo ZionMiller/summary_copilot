@@ -1,0 +1,5 @@
+# Ignore .env file
+.env
+
+# Ignore local.env file (template for others)
+.local.env
